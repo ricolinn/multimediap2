@@ -1,4 +1,4 @@
-package web_scraping;
+	package web_scraping;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,6 +14,9 @@ public class Scraper {
 		getH4(url);
 		getSummary(url);
 		getSummaryText(url);
+		getDirector(url);
+		getKeywords(url);
+		getCast(url);
 	}
 	public static void getWebpageTitle(String url) throws Exception {
 		Document doc = Jsoup.connect(url).get();
@@ -66,4 +69,28 @@ public class Scraper {
 			System.out.println("\t:" + el.text());
 		}
 	}
+	
+	public static void getDirector(String url) throws Exception{
+		Document doc = Jsoup.connect(url).get();
+		Elements elems = doc.select("div.credit_summary_item");
+		System.out.println(elems.get(0).text());
+	}
+	
+	public static void getKeywords(String url) throws Exception{
+		Document doc = Jsoup.connect(url+"keywords").get();
+		Elements elems = doc.select("td[data-item-keyword]");
+		for (Element el: elems) {
+			System.out.println("\t" + el.attr("data-item-keyword"));
+		}
+	}
+	
+	public static void getCast(String url) throws Exception{
+		Document doc = Jsoup.connect(url+"fullcredits").get();
+		Elements elems = doc.select("table[cast_list] a[href*=name]");
+		for (Element el: elems) {
+			System.out.println("\t" + el.text());
+		}
+	}
+	
+	
 }
