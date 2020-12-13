@@ -26,7 +26,7 @@ public class ExcelParser {
 			int year;
 			
 			//Get cells values
-			id = Double.toString(idCell.getNumericCellValue());
+			id = Integer.toString((int)(idCell.getNumericCellValue()));
 			link = linkCell.getStringCellValue();
 			title = titleCell.getStringCellValue();
 			
