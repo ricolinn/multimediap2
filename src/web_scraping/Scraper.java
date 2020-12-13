@@ -8,14 +8,14 @@ import org.jsoup.select.Elements;
 public class Scraper {
 	public static final String url = "https://www.imdb.com/title/tt0111161/";
 	public static void main(String[] args) throws Exception{
-		getWebpageTitle(url);
+//		getWebpageTitle(url);
 //		getAllLinks(url);
-		getAllImages(url);
-		getH4(url);
-		getSummary(url);
-		getSummaryText(url);
-		getDirector(url);
-		getKeywords(url);
+//		getAllImages(url);
+//		getH4(url);
+//		getSummary(url);
+//		getSummaryText(url);
+//		getDirector(url);
+//		getKeywords(url);
 		getCast(url);
 	}
 	public static void getWebpageTitle(String url) throws Exception {
@@ -86,9 +86,14 @@ public class Scraper {
 	
 	public static void getCast(String url) throws Exception{
 		Document doc = Jsoup.connect(url+"fullcredits").get();
-		Elements elems = doc.select("table[cast_list] a[href*=name]");
+		Elements elems = doc.select(".cast_list a[href*=/name]");
 		for (Element el: elems) {
-			System.out.println("\t" + el.text());
+			String text = el.text();
+			if(text.compareTo("") != 0) {
+				System.out.println("\t" + text);
+			}
+			
+			
 		}
 	}
 	
