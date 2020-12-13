@@ -1,9 +1,18 @@
-	package web_scraping;
+package web_scraping;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
+import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.google.gson.Gson;
 
 public class Scraper {
 //	public static final String url = "https://www.imdb.com/title/tt0111161/";
@@ -35,8 +44,18 @@ public class Scraper {
 				movies[i].setSummary(summary);
 				movies[i].setKeywords(keywords);
 				movies[i].setCast(cast);
+				
+				Gson gson = new Gson();
+				String json = gson.toJson(movies[i]);
+				
+				FileWriter fw = new FileWriter("lib/"+i+".json");
+				PrintWriter pw = new PrintWriter(fw);
+				
+				pw.print(json);
+				pw.close();
 			}
 			System.out.println("*****FINISHED*****");
+			
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

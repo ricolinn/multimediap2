@@ -2,9 +2,9 @@ package web_scraping;
 
 public class Movie {
 
-	String id, link, title, genre, poster, director, summary, keywords, cast;
-	float score;
-	int year;
+	public String id, link, title, genre, poster, director, summary, keywords, cast;
+	public float score;
+	public int year;
 	
 	public Movie(String id, String link, String title, String genre, String poster, float score, int year) {
 		super();
