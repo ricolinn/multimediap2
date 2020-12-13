@@ -11,7 +11,7 @@ public class ExcelParser {
 		XSSFSheet sheet = wb.getSheetAt(0); 
 		int rows = sheet.getLastRowNum();
 		Movie result[] = new Movie[rows];
-		for(int i = 2; i < rows; ++i) {
+		for(int i = 1; i <= rows; ++i) {
 			//Get Excel cells
 			XSSFRow row = sheet.getRow(i);
 			XSSFCell idCell = row.getCell(0);
@@ -26,7 +26,7 @@ public class ExcelParser {
 			int year;
 			
 			//Get cells values
-			id = idCell.getStringCellValue();
+			id = Double.toString(idCell.getNumericCellValue());
 			link = linkCell.getStringCellValue();
 			title = titleCell.getStringCellValue();
 			
@@ -41,7 +41,8 @@ public class ExcelParser {
 			
 			//Extract genre text from cell value
 			genre = genreCell.getStringCellValue();
-			String genreParts[] = genre.split("|");
+			String genreParts[] = genre.split("\\|");
+			genre = "";
 			for(int j = 0; j<genreParts.length; ++j) {
 				if(j != (genreParts.length -1)) {
 					genre += (genreParts[j] + " ");
@@ -55,7 +56,7 @@ public class ExcelParser {
 			
 			//Create Movie Object with the information
 			Movie movieObj = new Movie(id, link, title, genre, poster, score, year);
-			result[i] = movieObj;
+			result[i-1] = movieObj;
 		}
 		wb.close();
 		return result;
