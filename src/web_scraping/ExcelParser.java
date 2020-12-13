@@ -7,10 +7,12 @@ import org.apache.poi.xssf.usermodel.*;
 public class ExcelParser {
 	
 	public Movie[] readExcel() throws Exception{
-		XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream("lib/a.xlsx"));
+		
+		XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream("lib/movie_index.xlsx"));
 		XSSFSheet sheet = wb.getSheetAt(0); 
 		int rows = sheet.getLastRowNum();
 		Movie result[] = new Movie[rows];
+		try {
 		for(int i = 1; i <= rows; ++i) {
 			//Get Excel cells
 			XSSFRow row = sheet.getRow(i);
@@ -58,7 +60,12 @@ public class ExcelParser {
 			Movie movieObj = new Movie(id, link, title, genre, poster, score, year);
 			result[i-1] = movieObj;
 		}
+		
 		wb.close();
+		return result;
+		} catch(Exception e) {
+
+		}
 		return result;
 	}
 

@@ -47,8 +47,8 @@ public class Scraper {
 				
 				Gson gson = new Gson();
 				String json = gson.toJson(movies[i]);
-				
-				FileWriter fw = new FileWriter("lib/"+i+".json");
+				String title = movies[i].getTitle();
+				FileWriter fw = new FileWriter("json/"+title+".json");
 				PrintWriter pw = new PrintWriter(fw);
 				
 				pw.print(json);
