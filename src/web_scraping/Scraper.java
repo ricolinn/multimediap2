@@ -8,22 +8,40 @@ import org.jsoup.select.Elements;
 public class Scraper {
 //	public static final String url = "https://www.imdb.com/title/tt0111161/";
 	public static void main(String[] args) throws Exception{
-		System.out.println("*****STARTING PARSING*****");
-		ExcelParser ep = new ExcelParser();
-		Movie[] movies = ep.readExcel();
-		for(int i = 0; i < movies.length; ++i) {
-			String link = movies[i].getLink();
-			String director = getDirector(link);
-			String summary = getSummaryText(link);
-			String keywords = getKeywords(link);
-			String cast = getCast(link);
-			
-			movies[i].setDirector(director);
-			movies[i].setSummary(summary);
-			movies[i].setKeywords(keywords);
-			movies[i].setCast(cast);
+		try {
+			System.out.println("*****STARTING PARSING*****");
+			ExcelParser ep = new ExcelParser();
+			Movie[] movies = ep.readExcel();
+			for(int i = 0; i < movies.length; ++i) {
+				String link = movies[i].getLink();
+				link += "/";
+				Document mainDoc = Jsoup.connect(link).maxBodySize(1024*1024*10)
+			            .timeout(0).ignoreContentType(true)
+			            .execute().parse();
+				Document keywordsDoc = Jsoup.connect(link + "keywords").maxBodySize(1024*1024*10)
+			            .timeout(0).ignoreContentType(true)
+			            .execute().parse();
+				
+				Document creditsDoc = Jsoup.connect(link + "fullcredits").maxBodySize(1024*1024*10)
+		            .timeout(0).ignoreContentType(true)
+		            .execute().parse();
+				String director = getDirector(mainDoc);
+				String summary = getSummaryText(mainDoc);
+				
+				String keywords = getKeywords(keywordsDoc);
+				String cast = getCast(creditsDoc);
+				
+				movies[i].setDirector(director);
+				movies[i].setSummary(summary);
+				movies[i].setKeywords(keywords);
+				movies[i].setCast(cast);
+			}
+			System.out.println("*****FINISHED*****");
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
-		System.out.println("*****FINISHED*****");
+		
 	}
 	public static void getWebpageTitle(String url) throws Exception {
 		Document doc = Jsoup.connect(url).get();
@@ -59,8 +77,7 @@ public class Scraper {
 		}
 	}
 	
-	public static void getSummary(String url) throws Exception{
-		Document doc = Jsoup.connect(url).get();
+	public static void getSummary(Document doc) throws Exception{
 		Elements elems = doc.select("div[class=credit_summary_item]");
 		System.out.println("Summary text from: " + doc.title());
 		for(Element el: elems) {
@@ -68,8 +85,7 @@ public class Scraper {
 		}
 	}
 	
-	public static String getSummaryText(String url) throws Exception{
-		Document doc = Jsoup.connect(url).get();
+	public static String getSummaryText(Document doc) throws Exception{
 		Elements elems = doc.select("div[class=summary_text]");
 		System.out.println("Summary from: " + doc.title());
 		for(Element el: elems) {
@@ -78,14 +94,12 @@ public class Scraper {
 		return null;
 	}
 	
-	public static String getDirector(String url) throws Exception{
-		Document doc = Jsoup.connect(url).get();
+	public static String getDirector(Document doc) throws Exception{
 		Elements elems = doc.select("div.credit_summary_item");
 		return elems.get(0).text();
 	}
 	
-	public static String getKeywords(String url) throws Exception{
-		Document doc = Jsoup.connect(url+"keywords").get();
+	public static String getKeywords(Document doc) throws Exception{
 		Elements elems = doc.select("td[data-item-keyword]");
 		String resultString = "";
 		for (Element el: elems) {
@@ -98,8 +112,7 @@ public class Scraper {
 		return resultString;
 	}
 	
-	public static String getCast(String url) throws Exception{
-		Document doc = Jsoup.connect(url+"fullcredits").get();
+	public static String getCast(Document doc) throws Exception{
 		Elements elems = doc.select(".cast_list a[href*=/name]");
 		String resultString = "";
 		for (Element el: elems) {
