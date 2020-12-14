@@ -72,7 +72,7 @@ public class ExcelParser {
 //	}
 //	
 	public String[] getIds() throws Exception{
-		XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream("lib/movie_index1.xlsx"));
+		XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream("lib/movie_index1_def.xlsx"));
 		wb.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 		XSSFSheet sheet = wb.getSheetAt(0); 
 		int rows = sheet.getLastRowNum();
