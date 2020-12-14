@@ -1,12 +1,9 @@
 package web_scraping;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
+
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,113 +14,123 @@ import com.google.gson.Gson;
 public class Scraper {
 //	public static final String url = "https://www.imdb.com/title/tt0111161/";
 	public static void main(String[] args) throws Exception{
-		try {
-			System.out.println("*****STARTING PARSING*****");
-			ExcelParser ep = new ExcelParser();
-			Movie[] movies = ep.readExcel();
-			for(int i = 0; i < movies.length; ++i) {
-				String link = movies[i].getLink();
-				link += "/";
-				Document mainDoc = Jsoup.connect(link).maxBodySize(1024*1024*10)
-			            .timeout(0).ignoreContentType(true)
-			            .execute().parse();
-				Document keywordsDoc = Jsoup.connect(link + "keywords").maxBodySize(1024*1024*10)
-			            .timeout(0).ignoreContentType(true)
-			            .execute().parse();
-				
-				Document creditsDoc = Jsoup.connect(link + "fullcredits").maxBodySize(1024*1024*10)
-		            .timeout(0).ignoreContentType(true)
-		            .execute().parse();
-				String director = getDirector(mainDoc);
-				String summary = getSummaryText(mainDoc);
-				
-				String keywords = getKeywords(keywordsDoc);
-				String cast = getCast(creditsDoc);
-				
-				movies[i].setDirector(director);
-				movies[i].setSummary(summary);
-				movies[i].setKeywords(keywords);
-				movies[i].setCast(cast);
-				
-				Gson gson = new Gson();
-				String json = gson.toJson(movies[i]);
-				String title = movies[i].getTitle();
-				FileWriter fw = new FileWriter("json/"+title+".json");
-				PrintWriter pw = new PrintWriter(fw);
-				
-				pw.print(json);
-				pw.close();
+		ExcelParser ep = new ExcelParser();
+		String movieIds[] = ep.getIds();
+		String link = "https://www.imdb.com/title/tt00";
+		Movie[] movies = new Movie[movieIds.length];
+		int notFound = 0;
+		for(int i = 0; i<movieIds.length; ++i) {
+			String movieId = movieIds[i];
+
+			if(movieId.compareTo("0") == 0) {
+				notFound++;
+				continue;
 			}
-			System.out.println("*****FINISHED*****");
+
+			String movieLink = link + movieId + "/";
+			String keywordsLink = movieLink + "keywords";
+			String creditsLink = movieLink + "fullcredits";
 			
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			String title = getTitle(movieLink);
+			int year = Integer.parseInt(getYear(movieLink));
+			String genre = getGenre(movieLink);
+			float rating = Float.parseFloat(getRating(movieLink));
+			String director = getDirector(movieLink);
+			String summary = getSummaryText(movieLink);
+			String keywords = getKeywords(keywordsLink);
+			String cast = getCast(creditsLink);
+			movies[i] = new Movie(title, year, genre, rating, director, summary, keywords, cast);
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(movies[i]);
+			String movieTitle = movies[i].getTitle();
+			FileWriter fw = new FileWriter("json/"+movieTitle+".json");
+			PrintWriter pw = new PrintWriter(fw);
+			
+			pw.print(json);
+			pw.close();
 		}
+		System.out.println(notFound);
+
 		
 	}
-	public static void getWebpageTitle(String url) throws Exception {
+
+	public static String getTitle(String url) throws Exception {
 		Document doc = Jsoup.connect(url).get();
 		System.out.println("Title from: " + doc.title());
-		String title = doc.title();
-		System.out.println(title);
-	}
-	
-	public static void getAllLinks(String url) throws Exception{
-		Document doc = Jsoup.connect(url).get();
-		Elements elems = doc.select("a[href]");
-		System.out.println("Links from: " + doc.title());
+		Elements elems = doc.select("h1");
 		for(Element el: elems) {
-			System.out.println("\t:" + elems.text());
+			return el.ownText();
 		}
+		return null;
 	}
 	
-	public static void getAllImages(String url) throws Exception{
+	public static String getYear(String url) throws Exception {
 		Document doc = Jsoup.connect(url).get();
-		Elements elems = doc.select("img[src~=[\\w\\d\\W]log[\\w\\d\\W]]");
-		System.out.println("Images from: " + doc.title());
+		System.out.println("Year from: " + doc.title());
+		Elements elems = doc.select("h1 a");
 		for(Element el: elems) {
-			System.out.println("\t:" + elems.attr("src"));
+			return el.ownText();
 		}
+		return null;
 	}
 	
-	public static void getH4(String url) throws Exception{
+	public static String getGenre(String url) throws Exception{
 		Document doc = Jsoup.connect(url).get();
-		Elements elems = doc.select("h4");
-		System.out.println("H4 from: " + doc.title());
-		for (Element el: elems) {
-			System.out.println("\t:" + el.childNode(0).toString());
-		}
-	}
-	
-	public static void getSummary(Document doc) throws Exception{
-		Elements elems = doc.select("div[class=credit_summary_item]");
-		System.out.println("Summary text from: " + doc.title());
+		System.out.println("Genre from: " + doc.title());
+		Elements elems = doc.select("div[class=see-more inline canwrap] a[href*=/search/title?genres]");
+		String result = "";
 		for(Element el: elems) {
-			System.out.println("\t:" + el.text());
+			if (el != elems.last()) {
+				result += el.ownText() + "|";
+			} else {
+				result += el.ownText();
+			}
+			
 		}
+		return result;
 	}
 	
-	public static String getSummaryText(Document doc) throws Exception{
+	public static String getRating(String url) throws Exception{
+		Document doc = Jsoup.connect(url).get();
+		System.out.println("Rating from: " + doc.title());
+		Elements elems = doc.select("span[itemprop=ratingValue]");
+		for(Element el: elems) {
+			return el.ownText();
+		}
+		return null;
+	}
+	
+	public static String getDirector(String url) throws Exception{
+		Document doc = Jsoup.connect(url).maxBodySize(1024*1024*10)
+        .timeout(0).ignoreContentType(true)
+        .execute().parse();
+		Elements elems = doc.select("div.credit_summary_item");
+		return elems.get(0).text();
+	}
+	
+	
+	public static String getSummaryText(String url) throws Exception{
+		Document doc = Jsoup.connect(url).maxBodySize(1024*1024*10)
+	            .timeout(0).ignoreContentType(true)
+	            .execute().parse();
 		Elements elems = doc.select("div[class=summary_text]");
-		System.out.println("Summary from: " + doc.title());
+		System.out.println("Summary text from: " + doc.title());
 		for(Element el: elems) {
 			return el.text();
 		}
 		return null;
 	}
 	
-	public static String getDirector(Document doc) throws Exception{
-		Elements elems = doc.select("div.credit_summary_item");
-		return elems.get(0).text();
-	}
-	
-	public static String getKeywords(Document doc) throws Exception{
+	public static String getKeywords(String url) throws Exception{
+		Document doc = Jsoup.connect(url).maxBodySize(1024*1024*10)
+	            .timeout(0).ignoreContentType(true)
+	            .execute().parse();
 		Elements elems = doc.select("td[data-item-keyword]");
 		String resultString = "";
 		for (Element el: elems) {
 			if(el != elems.last()) {
-				resultString += (el.attr("data-item-keyword") + " ");
+				resultString += (el.attr("data-item-keyword") + "|");
 			} else {
 				resultString += (el.attr("data-item-keyword"));
 			}
@@ -131,14 +138,17 @@ public class Scraper {
 		return resultString;
 	}
 	
-	public static String getCast(Document doc) throws Exception{
+	public static String getCast(String url) throws Exception{
+		Document doc = Jsoup.connect(url).maxBodySize(1024*1024*10)
+	            .timeout(0).ignoreContentType(true)
+	            .execute().parse();
 		Elements elems = doc.select(".cast_list a[href*=/name]");
 		String resultString = "";
 		for (Element el: elems) {
 			String text = el.text();
 			if(text.compareTo("") != 0) {
 				if(el != elems.last()) {
-					resultString += (text + " ");
+					resultString += (text + "|");
 				} else {
 					resultString += text;
 				}				
