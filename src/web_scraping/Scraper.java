@@ -57,8 +57,8 @@ public class Scraper {
 			movie.put("summary", summary);
 			movie.put("keywords", keywords);
 			movie.put("cast", cast);
-			
-			String path = "json/" + i + ".json";
+			int j = i + 3557;
+			String path = "json/" + j + ".json";
 			FileWriter file = new FileWriter(path);
 			try {
 			file.write(movie.toJSONString());
@@ -82,17 +82,18 @@ public class Scraper {
 		for(Element el: elems) {
 			return el.ownText();
 		}
-		return null;
+		return "";
 	}
 	
 	public static String getYear(Document doc) throws Exception {
 
 		System.out.println("Year from: " + doc.title());
-		Elements elems = doc.select("h1 a");
-		for(Element el: elems) {
-			return el.ownText();
+		String year = doc.select("div.title_wrapper").select("a[href*=/year]").text();
+		String year1 = "0";
+		if(!year.isEmpty()) {
+			year1 = year;
 		}
-		return null;
+		return year1;
 	}
 	
 	public static String getGenre(Document doc) throws Exception{
@@ -118,13 +119,16 @@ public class Scraper {
 		for(Element el: elems) {
 			return el.ownText();
 		}
-		return null;
+		return "0.0";
 	}
 	
 	public static String getDirector(Document doc) throws Exception{
 
 		Elements elems = doc.select("div.credit_summary_item");
-		return elems.get(0).text();
+		for(Element el: elems) {
+			return elems.get(0).text();
+		}
+		return "N/A";
 	}
 	
 	
@@ -135,7 +139,7 @@ public class Scraper {
 		for(Element el: elems) {
 			return el.text();
 		}
-		return null;
+		return "";
 	}
 	
 	public static String getKeywords(Document doc) throws Exception{
