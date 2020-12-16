@@ -1,0 +1,423 @@
+Query no. 1: 
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 11,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "CMf4aHYBSCwTDbDXwYjJ",
+        "_score" : null,
+        "_source" : {
+          "year" : 1976,
+          "title" : "El alimento de los dioses"
+        },
+        "sort" : [
+          1976
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "HMf4aHYBSCwTDbDX3Ila",
+        "_score" : null,
+        "_source" : {
+          "year" : 1977,
+          "title" : "El imperio de las hormigas"
+        },
+        "sort" : [
+          1977
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "DsbraHYBSCwTDbDXgfQl",
+        "_score" : null,
+        "_source" : {
+          "year" : 1981,
+          "title" : "Veneno"
+        },
+        "sort" : [
+          1981
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "UcbraHYBSCwTDbDXw_b0",
+        "_score" : null,
+        "_source" : {
+          "year" : 1985,
+          "title" : "Phenomena"
+        },
+        "sort" : [
+          1985
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "AcfsaHYBSCwTDbDXqQBZ",
+        "_score" : null,
+        "_source" : {
+          "year" : 1991,
+          "title" : "La bestia bajo el asfalto 2: la mutación"
+        },
+        "sort" : [
+          1991
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "OsftaHYBSCwTDbDXNAaQ",
+        "_score" : null,
+        "_source" : {
+          "year" : 1994,
+          "title" : "En busca del valle encantado 2: Aventuras en el gran valle"
+        },
+        "sort" : [
+          1994
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "KsftaHYBSCwTDbDXMwZK",
+        "_score" : null,
+        "_source" : {
+          "year" : 1995,
+          "title" : "Jupiter's Wife"
+        },
+        "sort" : [
+          1995
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "ocfvaHYBSCwTDbDXJxo1",
+        "_score" : null,
+        "_source" : {
+          "year" : 2000,
+          "title" : "Regreso a el jardín secreto"
+        },
+        "sort" : [
+          2000
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "38fwaHYBSCwTDbDXYibx",
+        "_score" : null,
+        "_source" : {
+          "year" : 2005,
+          "title" : "Earthlings"
+        },
+        "sort" : [
+          2005
+        ]
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "2MfwaHYBSCwTDbDX6yxW",
+        "_score" : null,
+        "_source" : {
+          "year" : 2006,
+          "title" : "El corral: Una fiesta muy bestia"
+        },
+        "sort" : [
+          2006
+        ]
+      }
+    ]
+  }
+}
+Query no. 2:
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3615,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "cast" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 144615,
+      "buckets" : [
+        {
+          "key" : "Frank Welker",
+          "doc_count" : 104
+        },
+        {
+          "key" : "Jeff Bennett",
+          "doc_count" : 56
+        },
+        {
+          "key" : "Jim Cummings",
+          "doc_count" : 49
+        },
+        {
+          "key" : "John Wayne",
+          "doc_count" : 46
+        },
+        {
+          "key" : "Fred Tatasciore",
+          "doc_count" : 44
+        },
+        {
+          "key" : "Christopher Lee",
+          "doc_count" : 40
+        },
+        {
+          "key" : "Bob Bergen",
+          "doc_count" : 39
+        },
+        {
+          "key" : "Dee Bradley Baker",
+          "doc_count" : 37
+        },
+        {
+          "key" : "Phil Proctor",
+          "doc_count" : 37
+        },
+        {
+          "key" : "Sherry Lynn",
+          "doc_count" : 37
+        }
+      ]
+    }
+  }
+}
+Query no. 3:
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1536,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "year" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 1125,
+      "buckets" : [
+        {
+          "key" : 2013,
+          "doc_count" : 63
+        },
+        {
+          "key" : 2014,
+          "doc_count" : 51
+        },
+        {
+          "key" : 2011,
+          "doc_count" : 44
+        },
+        {
+          "key" : 2012,
+          "doc_count" : 43
+        },
+        {
+          "key" : 2015,
+          "doc_count" : 43
+        },
+        {
+          "key" : 1997,
+          "doc_count" : 36
+        },
+        {
+          "key" : 1996,
+          "doc_count" : 35
+        },
+        {
+          "key" : 1998,
+          "doc_count" : 35
+        },
+        {
+          "key" : 2010,
+          "doc_count" : 31
+        },
+        {
+          "key" : 1999,
+          "doc_count" : 30
+        }
+      ]
+    }
+  }
+}
+Query no. 4:
+{
+  "took" : 68,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 146,
+      "relation" : "eq"
+    },
+    "max_score" : 8.635804,
+    "hits" : [
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "o8f2aHYBSCwTDbDXKGng",
+        "_score" : 8.635804,
+        "_source" : {
+          "year" : 2015,
+          "title" : "Dreamcatcher"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "WMf2aHYBSCwTDbDX43Lr",
+        "_score" : 8.135,
+        "_source" : {
+          "year" : 2015,
+          "title" : "La teoría sueca del amor. El secreto de la felicidad"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "Nsf3aHYBSCwTDbDX9X_v",
+        "_score" : 7.854096,
+        "_source" : {
+          "year" : 1969,
+          "title" : "Al-ard"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "N8f2aHYBSCwTDbDXn2_A",
+        "_score" : 6.9294486,
+        "_source" : {
+          "year" : 2014,
+          "title" : "La revolución del Crowdfunding"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "XcftaHYBSCwTDbDXlAqT",
+        "_score" : 6.6977267,
+        "_source" : {
+          "year" : 1996,
+          "title" : "La fuerza de un ángel"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "BMbraHYBSCwTDbDXY_Px",
+        "_score" : 6.176749,
+        "_source" : {
+          "year" : 1983,
+          "title" : "Black Wax"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "K8ftaHYBSCwTDbDXegn3",
+        "_score" : 6.176749,
+        "_source" : {
+          "year" : 1995,
+          "title" : "Compañeros de habitación"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "SMfwaHYBSCwTDbDXmSmI",
+        "_score" : 6.176749,
+        "_source" : {
+          "year" : 2004,
+          "title" : "Blackballed: The Bobby Dukes Story"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "P8fxaHYBSCwTDbDXeTMe",
+        "_score" : 6.176749,
+        "_source" : {
+          "year" : 1947,
+          "title" : "Fuerza bruta (Brute force)"
+        }
+      },
+      {
+        "_index" : "projectindex",
+        "_type" : "_doc",
+        "_id" : "D8fzaHYBSCwTDbDXIEae",
+        "_score" : 6.176749,
+        "_source" : {
+          "year" : 2009,
+          "title" : "Objectified"
+        }
+      }
+    ]
+  }
+}
+Query no.5:
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 0,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  }
+}

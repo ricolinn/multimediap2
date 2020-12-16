@@ -71,35 +71,17 @@ curl -XGET "localhost:9200/projectindex/_search?pretty" -H 'Content-Type: applic
 printf "Query no. 4:\n"
 curl -XGET "localhost:9200/projectindex/_search?pretty" -H 'Content-Type: application/json' -d'
 {
-  "query":{
-    "bool":{
-      "must":[
-      {
-         "match_phrase_prefix":{ "keywords": "corrupt"}
-      },
-    {
-    "bool":{
-      "should":[
-            {"match_phrase":{ "keywords": "europe"}},
-            {"match_phrase":{ "keywords": "united states"}},
-        {"match_phrase_prefix":{ "keywords": "politi"}}
-          ]
-         }
-      }
-    ]
-  }
-},
-  "_source":{
-    "includes": [
-    "title",
-    "year"
-    ]
-  },
-    "sort": [
-    {
-      "year":{
-        "order":"asc"
-       }
-      }
-    ]
-  }'
+	"query": {
+		"bool": {
+			"must": {"match_phrase": {"keywords": "social"}},
+			"should": [
+				{"match_phrase": {"summary": "spain"}},
+				{"match_phrase": {"summary": "latin america"}}
+			]
+		}
+	},
+	"_source": {
+		"includes": ["title", "year"]
+	}
+
+}'
