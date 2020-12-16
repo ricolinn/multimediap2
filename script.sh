@@ -1,12 +1,29 @@
 curl -XPUT "localhost:9200/projectindex?pretty" -H 'Content-Type: application/json' -d '
 {
+	"settings": {
+		"analysis": {
+			"analyzer": {
+				"custom_analyzer": {
+					"tokenizer": "my_tokenizer" 
+				}
+			},
+			"tokenizer": {
+				"my_tokenizer": {
+					"type": "pattern",
+					"pattern": "\\|"
+				}
+			}
+		}
+	},
 	"mappings": {
 		"properties": {
 			"summary": {
 				"type": "text"
 			},
 			"cast": {
-				"type": "text"
+				"type": "text",
+				"fielddata": true,
+				"analyzer": "custom_analyzer"
 			},
 			"keywords": {
 				"type": "text"
@@ -16,6 +33,7 @@ curl -XPUT "localhost:9200/projectindex?pretty" -H 'Content-Type: application/js
 			},
 			"director": {
 				"type": "text"
+				
 			},
 			"genre": {
 				"type": "text"
